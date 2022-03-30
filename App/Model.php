@@ -5,12 +5,12 @@
         // polytmorphism: overloading same block different parameters
         public function __construct($n="",$s=[],$l="",$c=0)
         {
-            echo "<br/>Constructor called<br/>";
+            //echo "<br/>Constructor called<br/>";
             $this->name=$n;$this->skills=$s;$this->location=$l;$this->commercials=$c;
         }
         public function __destruct()
         {
-            echo $this->name." has destroyed/freed from memory<br/>";
+            //echo $this->name." has destroyed/freed from memory<br/>";
         }
         public function display()
         {
