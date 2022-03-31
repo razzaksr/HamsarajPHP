@@ -5,16 +5,34 @@ class Manage implements ResourceActions
 {
     private $arr=[];
 
+    private $filename="records.doc";
+
+    public function dump()
+    {
+        $op=fopen($this->filename,"w");
+        fwrite($op,serialize($this->arr));
+        fclose($op);
+    }
+
+    public function load()
+    {
+        $op=fopen($this->filename,"r");
+        $tmp=fread($op,filesize($this->filename));
+        $this->arr=unserialize($tmp);
+    }
+
     public function __construct()
     {
-        array_push($this->arr,new Resource("Rasheedha R",["Javascript","Java"],"Salem",100000));
-        array_push($this->arr,new Resource("Razak Mohamed S",["Javascript","Java","PHP"],"Salem",100870));
-        array_push($this->arr,new Resource("Titus R",["Java"],"Banglore",100000));
-        array_push($this->arr,new Resource("Annamalai S",["Javascript"],"Chennai",100000));
+        // array_push($this->arr,new Resource("Rasheedha R",["Javascript","Java"],"Salem",100000));
+        // array_push($this->arr,new Resource("Razak Mohamed S",["Javascript","Java","PHP"],"Salem",100870));
+        // array_push($this->arr,new Resource("Titus R",["Java"],"Banglore",100000));
+        // array_push($this->arr,new Resource("Annamalai S",["Javascript"],"Chennai",100000));
+        // $this->dump();
     }
 
     public function delete($ind)
     {
+        $this->load();
         global $in;
         $in=$ind;
         function erase($v)
@@ -23,13 +41,17 @@ class Manage implements ResourceActions
             return strcmp($v->getName(),$in)!=0;
         }
         $this->arr=array_filter($this->arr,"erase");
+        //foreach($this->arr as $v){echo $v->display();}
+        $this->dump();
     }
     public function read($ind)
     {
+        $this->load();
         echo "<br/>".$this->arr[$ind]->display()."<br/>";
     }
     public function search($n = "", $s = "",$l="", $c = 0)
     {
+        $this->load();
         if($n!="" and $s=="" and $l=="" and $c==0)
         {
             echo "<br/>Display All resources whose name contains ".$n."<br/>";
@@ -75,8 +97,11 @@ class Manage implements ResourceActions
     }
     public function recruite(Resource $obj): string
     {
+        $this->load();
         array_push($this->arr,$obj);
+        $this->dump();
         return $obj->getName()." has recruited";
+
     }
     public function list()
     {
@@ -86,6 +111,7 @@ class Manage implements ResourceActions
         //     echo "<br>".$v->display()."<br>";
         // }
         // array_map("hey",$this->arr);
+        $this->load();
         return $this->arr;
     }
 }

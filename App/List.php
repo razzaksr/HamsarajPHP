@@ -30,8 +30,9 @@ require_once 'Model.php'?>
                                 echo "<tr>";
                                 echo "<td>".$obj->getName()."</td>";
                                 echo "<td>".$obj->getLocation()."</td>";
-                                echo "<td>".$obj->getSkills()."</td>";
+                                echo "<td>".$obj->getSkillsView()."</td>";
                                 echo "<td>".$obj->getCommercials()."</td>";
+                                echo "<td> <a class='btn btn-outline-danger' href='./Delete.php?data=".$obj->getName()."'"."><i class='bi bi-x-circle-fill'></i></a></td>";
                                 echo "</tr>";
                             }
                             array_map("iterate",$tmp);

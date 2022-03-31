@@ -28,6 +28,14 @@
         public function getName(){return $this->name;}
         public function setSkills($sk){$this->skills=$sk;}
         public function getSkills(){return $this->skills;}
+        public function getSkillsView()
+        {
+            $data="";
+            foreach ($this->skills as $v) {
+                $data.=$v." ";
+            }
+            return $data;
+        }
         public function setLocation($lc){$this->location=$lc;}
         public function getLocation(){return $this->location;}
         public function setCommercials($cm){$this->commercials=$cm;}
