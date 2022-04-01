@@ -16,6 +16,8 @@ include 'Controller.php';?>
 </head>
 <body>
     <?php
+        $ob=new Resource();
+        $pos;
         //echo "hi";
         if($_POST)
         {
@@ -23,30 +25,39 @@ include 'Controller.php';?>
             $arr=explode(",",$txt);
             $r=new Resource($_POST['user'],$arr,$_POST['place'],$_POST['pay']);
             $m=new Manage();
-            $m->recruite($r);
+            $m->update($r,$_POST['pos']);
+        }
+        else{
+            $m=new Manage();
+            $ob=$m->read($_GET['data']);
+            $pos=$ob[1];
+            $ob=$ob[0];
         }
     ?>
     <div class="container mt-3">
         <div class="row justify-content-center">
             <form class="col-lg-6 col-md-8 col-sm-12 shadow p-5" action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST">
+                <input type="hidden" name="pos" value="<?php echo $pos?>"/>
                 <div class="form-group">
                     <label>Resource name</label>
-                    <input type="text" required name="user" placeholder="user" class="form-control"/>
+                    <input type="text" required value="<?php echo $ob->getName()?>" name="user" placeholder="user" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <label>Resource location</label>
-                    <input type="text" required name="place" placeholder="Location" class="form-control"/>
+                    <input type="text" required name="place" value="<?php echo $ob->getLocation()?>" placeholder="Location" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <label>Resource pay</label>
-                    <input type="text" required name="pay" placeholder="Commercials" class="form-control"/>
+                    <input type="text" required name="pay" value="<?php echo $ob->getCommercials()?>" placeholder="Commercials" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <label>Resource skills</label>
-                    <textarea required name="skills" class="form-control" placeholder="Skills seperated by ,"></textarea>
+                    <textarea required name="skills" class="form-control" placeholder="Skills seperated by ,">
+                    <?php echo $ob->getSkillsView()?>
+                    </textarea>
                 </div>
                 <div class="row justify-content-around mt-5">
-                    <input type="submit" value="Recruite" class="btn btn-outline-success col-3"/>
+                    <input type="submit" value="Update" class="btn btn-outline-success col-3"/>
                     <input type="reset" value="cancel" class="btn btn-outline-secondary col-3"/>
                 </div>
             </form>

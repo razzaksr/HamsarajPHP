@@ -47,7 +47,32 @@ class Manage implements ResourceActions
     public function read($ind)
     {
         $this->load();
-        echo "<br/>".$this->arr[$ind]->display()."<br/>";
+        $count=0;
+        //echo "<br/>".$this->arr[$ind]->display()."<br/>";
+        foreach($this->arr as $v)
+        {
+            if(strcmp($v->getName(),$ind)==0)
+            {
+                return [$v,$count];
+            }
+            $count++;
+        }
+    }
+    public function update($obj,$index)
+    {
+        $this->load();
+        global $in;
+        $in=$obj->getName();
+        function erass($v)
+        {
+            global $in;
+            return strcmp($v->getName(),$in)!=0;
+        }
+        $this->arr=array_filter($this->arr,"erass");
+
+        array_push($this->arr,$obj);
+
+        $this->dump();
     }
     public function search($n = "", $s = "",$l="", $c = 0)
     {

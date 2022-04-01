@@ -19,6 +19,7 @@ require_once 'Model.php'?>
                         <tr>
                             <th>Resource Name</th><th>Resource Location</th>
                             <th>Resource Skills</th><th>Resource Pay</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,11 +29,12 @@ require_once 'Model.php'?>
                             function iterate($obj)
                             {
                                 echo "<tr>";
-                                echo "<td>".$obj->getName()."</td>";
+                                echo "<td><a href='./Read.php?data=".$obj->getName()."'"." class='btn btn-outline-success'><i class='bi bi-book-half'></i>".$obj->getName()."</a></td>";
                                 echo "<td>".$obj->getLocation()."</td>";
                                 echo "<td>".$obj->getSkillsView()."</td>";
                                 echo "<td>".$obj->getCommercials()."</td>";
-                                echo "<td> <a class='btn btn-outline-danger' href='./Delete.php?data=".$obj->getName()."'"."><i class='bi bi-x-circle-fill'></i></a></td>";
+                                echo "<td> <a class='btn btn-outline-danger rounded-circle me-2' href='./Delete.php?data=".$obj->getName()."'"."><i class='bi bi-x-circle-fill'></i></a>";
+                                echo "<a class='btn btn-outline-warning rounded-circle' href='./Update.php?data=".$obj->getName()."'"."><i class='bi bi-arrow-down-up'></i></a></td>";
                                 echo "</tr>";
                             }
                             array_map("iterate",$tmp);
