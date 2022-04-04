@@ -1,0 +1,11 @@
+{
+    "name":"Razak Mohamed S",
+    "skills":["Java","JAvascript","python"],
+    "exp":{
+        "2012":"Multicoreware",
+        "2013":"Mazenet",
+        "2015":"Zealous"
+    },
+    "ctc":21.4,
+    "isForFulltime":false
+}
