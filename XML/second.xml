@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<skillset>
+    <set>
+        <name>Java</name>
+        <usage>Spring and Hibernate web framework</usage>
+        <type>Open source</type>
+        <current>18</current>
+    </set>
+    <set>
+        <name>Python</name>
+        <usage>Django and Flask web framework</usage>
+        <type>Open source</type>
+        <current>3.10</current>
+    </set>
+    <set>
+        <name>Javascript</name>
+        <usage>MERN, MEAN and MEVN web frameworks</usage>
+        <type>Open source</type>
+        <current>3</current>
+    </set>
+    <set>
+        <name>PHP</name>
+        <usage>Advance and Laravel Web framework</usage>
+        <type>Open source</type>
+        <current>8</current>
+    </set>
+</skillset>
