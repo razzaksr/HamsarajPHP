@@ -1,3 +1,18 @@
+<?php
+
+session_start();
+
+if($_SESSION['user'])
+{
+  header("Cache-Control: no-cache, no-store, must-revalidate");
+  header("Pragma: no-cache"); 
+  header("Expires: 0");
+}
+else{
+  header("Location:./login.php");
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +44,7 @@
                 <a class="btn btn-primary" href="./Recruite.php">Recruite</a>
               </li>
               <li class="nav-item me-1">
-                <a class="btn btn-primary" href="#manoj">Shortlist</a>
+                <a class="btn btn-primary" href="./logout.php">Logout</a>
               </li>
             </ul>
           </div>
