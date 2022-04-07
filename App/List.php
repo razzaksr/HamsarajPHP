@@ -1,7 +1,29 @@
 <?php
 include 'UI.php';
 include 'Controller.php';
-require_once 'Model.php'?>
+require_once 'Model.php';
+try{
+    $obj=new PDO("mysql:host=localhost;dbname=hamsaraj","root","");
+
+    $obj->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
+    $sql="select * from resource";
+
+    $statement=$obj->prepare($sql);
+
+    $statement->execute();
+
+    $tmp=$statement->fetchAll(PDO::FETCH_OBJ);
+
+    //echo $tmp[0]->name;
+
+    $obj=null;
+}
+catch(PDOException $pd)
+{
+    echo $pd->getMessage();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,17 +46,17 @@ require_once 'Model.php'?>
                     </thead>
                     <tbody>
                         <?php
-                            $m=new Manage();
-                            $tmp=$m->list();
-                            function iterate($obj)
+                            //$m=new Manage();
+                            //$tmp=$m->list();
+                            function iterate($ob)
                             {
                                 echo "<tr>";
-                                echo "<td><a href='./Read.php?data=".$obj->getName()."'"." class='btn btn-outline-success'><i class='bi bi-book-half'></i>".$obj->getName()."</a></td>";
-                                echo "<td>".$obj->getLocation()."</td>";
-                                echo "<td>".$obj->getSkillsView()."</td>";
-                                echo "<td>".$obj->getCommercials()."</td>";
-                                echo "<td> <a class='btn btn-outline-danger rounded-circle me-2' href='./Delete.php?data=".$obj->getName()."'"."><i class='bi bi-x-circle-fill'></i></a>";
-                                echo "<a class='btn btn-outline-warning rounded-circle' href='./Update.php?data=".$obj->getName()."'"."><i class='bi bi-arrow-down-up'></i></a></td>";
+                                echo "<td><a href='./Read.php?data=".$ob->name."'"." class='btn btn-outline-success'><i class='bi bi-book-half'></i>".$ob->name."</a></td>";
+                                echo "<td>".$ob->location."</td>";
+                                echo "<td>".$ob->skills."</td>";
+                                echo "<td>".$ob->commercials."</td>";
+                                echo "<td> <a class='btn btn-outline-danger rounded-circle me-2' href='./Delete.php?data=".$ob->res_id."'"."><i class='bi bi-x-circle-fill'></i></a>";
+                                echo "<a class='btn btn-outline-warning rounded-circle' href='./Update.php?data=".$ob->res_id."'"."><i class='bi bi-arrow-down-up'></i></a></td>";
                                 echo "</tr>";
                             }
                             array_map("iterate",$tmp);

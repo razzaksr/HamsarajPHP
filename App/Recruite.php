@@ -21,9 +21,34 @@ include 'Controller.php';?>
         {
             $txt=$_POST['skills'];
             $arr=explode(",",$txt);
-            $r=new Resource($_POST['user'],$arr,$_POST['place'],$_POST['pay']);
-            $m=new Manage();
-            $m->recruite($r);
+            //$r=new Resource($_POST['user'],$arr,$_POST['place'],$_POST['pay']);
+            //$m=new Manage();
+            //$m->recruite($r);
+            try{
+                $obj=new PDO("mysql:host=localhost;dbname=hamsaraj","root","");
+            
+                $obj->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            
+                $sql="insert into resource(name,location,skills,commercials) values(:a,:b,:c,:d)";
+            
+                $statement=$obj->prepare($sql);
+
+                $statement->bindParam(":a",$_POST['user']);
+                $statement->bindParam(":b",$_POST['place']);
+                $statement->bindParam(":c",$arr);
+                $statement->bindParam(":d",$_POST['pay']);
+
+                $statement->execute();
+            
+                echo "Record created";
+            
+                $obj=null;
+            }
+            catch(PDOException $pd)
+            {
+                echo $pd->getMessage();
+            }
+            header("Location:./list.php");
         }
     ?>
     <div class="container mt-3">
