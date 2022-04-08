@@ -16,45 +16,101 @@ include 'Controller.php';?>
 </head>
 <body>
     <?php
-        $ob=new Resource();
+        //$ob=new Resource();
+        $ob;
         $pos;
         //echo "hi";
         if($_POST)
         {
-            $txt=$_POST['skills'];
-            $arr=explode(",",$txt);
-            $r=new Resource($_POST['user'],$arr,$_POST['place'],$_POST['pay']);
-            $m=new Manage();
-            $m->update($r,$_POST['pos']);
+           //echo $_POST['pos']." ".$_POST['skills']; 
+            try{
+                $obj=new PDO("mysql:host=localhost;dbname=hamsaraj","root","");
+            
+                $obj->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            
+                $sql="update resource set name=:n, location=:l, skills=:s,commercials=:c where res_id=:r";
+            
+                $statement=$obj->prepare($sql);
+
+                $statement->bindParam(":r",$_POST['pos']);
+                $statement->bindParam(":n",$_POST['user']);
+                $statement->bindParam(":l",$_POST['place']);
+                $statement->bindParam(":c",$_POST['pay']);
+                $statement->bindParam(":s",$_POST['skills']);
+            
+                $statement->execute();
+            
+                //$ob=$statement->fetch(PDO::FETCH_OBJ);
+
+                //$txt=trim($ob->skills,"");
+                //echo strlen($ob->skills)." ",strlen($txt);
+
+                header("Location:./List.php");
+            
+                $obj=null;
+            }
+            catch(PDOException $pd)
+            {
+                echo $pd->getMessage();
+            }
+            // // $txt=$_POST['skills'];
+            // // $arr=explode(",",$txt);
+            // //$r=new Resource($_POST['user'],$arr,$_POST['place'],$_POST['pay']);
+            // $m=new Manage();
+            // $m->update($r,$_POST['pos']);
         }
         else{
-            $m=new Manage();
-            $ob=$m->read($_GET['data']);
-            $pos=$ob[1];
-            $ob=$ob[0];
+            //$m=new Manage();
+            //$ob=$m->read($_GET['data']);
+            //$pos=$ob[1];
+            //$ob=$ob[0];
+            $alpha=$_GET['data'];
+            //echo $alpha."Got @ update";
+            try{
+                $obj=new PDO("mysql:host=localhost;dbname=hamsaraj","root","");
+            
+                $obj->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            
+                $sql="select * from resource where res_id=:hai";
+            
+                $statement=$obj->prepare($sql);
+
+                $statement->bindParam(":hai",$alpha);
+            
+                $statement->execute();
+            
+                $ob=$statement->fetch(PDO::FETCH_OBJ);
+
+                //$txt=trim($ob->skills,"");
+                //echo strlen($ob->skills)." ",strlen($txt);
+            
+                $obj=null;
+            }
+            catch(PDOException $pd)
+            {
+                echo $pd->getMessage();
+            }
         }
     ?>
     <div class="container mt-3">
         <div class="row justify-content-center">
             <form class="col-lg-6 col-md-8 col-sm-12 shadow p-5" action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST">
-                <input type="hidden" name="pos" value="<?php echo $pos?>"/>
+                <input type="hidden" name="pos" value="<?php echo $ob->res_id?>"/>
                 <div class="form-group">
                     <label>Resource name</label>
-                    <input type="text" required value="<?php echo $ob->getName()?>" name="user" placeholder="user" class="form-control"/>
+                    <input type="text" required value="<?php echo $ob->name?>" name="user" placeholder="user" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <label>Resource location</label>
-                    <input type="text" required name="place" value="<?php echo $ob->getLocation()?>" placeholder="Location" class="form-control"/>
+                    <input type="text" required name="place" value="<?php echo $ob->location?>" placeholder="Location" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <label>Resource pay</label>
-                    <input type="text" required name="pay" value="<?php echo $ob->getCommercials()?>" placeholder="Commercials" class="form-control"/>
+                    <input type="text" required name="pay" value="<?php echo $ob->commercials?>" placeholder="Commercials" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <label>Resource skills</label>
-                    <textarea required name="skills" class="form-control" placeholder="Skills seperated by ,">
-                    <?php echo $ob->getSkillsView()?>
-                    </textarea>
+                    <input type="text" required name="skills" value="<?php echo $ob->skills?>" placeholder="Skills by ," class="form-control"/>
                 </div>
                 <div class="row justify-content-around mt-5">
                     <input type="submit" value="Update" class="btn btn-outline-success col-3"/>

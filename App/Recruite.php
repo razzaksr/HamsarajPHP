@@ -20,7 +20,7 @@ include 'Controller.php';?>
         if($_POST)
         {
             $txt=$_POST['skills'];
-            $arr=explode(",",$txt);
+            //$arr=explode(",",$txt);
             //$r=new Resource($_POST['user'],$arr,$_POST['place'],$_POST['pay']);
             //$m=new Manage();
             //$m->recruite($r);
@@ -35,7 +35,7 @@ include 'Controller.php';?>
 
                 $statement->bindParam(":a",$_POST['user']);
                 $statement->bindParam(":b",$_POST['place']);
-                $statement->bindParam(":c",$arr);
+                $statement->bindParam(":c",$_POST['skills']);
                 $statement->bindParam(":d",$_POST['pay']);
 
                 $statement->execute();
